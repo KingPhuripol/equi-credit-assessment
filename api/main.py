@@ -1,6 +1,11 @@
 from __future__ import annotations
 
 from typing import Any, Literal
+import sys
+import os
+
+# Add api folder to path for Vercel serverless
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import numpy as np
 import pandas as pd
@@ -8,11 +13,14 @@ from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from api.industry import classify_industry_and_profit
-from api.model import ModelBundle, score_and_explain, train_model
-import os
-
-from api.ocr import mock_typhoon_ocr, real_openai_ocr_to_transactions
+try:
+    from api.industry import classify_industry_and_profit
+    from api.model import ModelBundle, score_and_explain, train_model
+    from api.ocr import mock_typhoon_ocr, real_openai_ocr_to_transactions
+except ImportError:
+    from industry import classify_industry_and_profit
+    from model import ModelBundle, score_and_explain, train_model
+    from ocr import mock_typhoon_ocr, real_openai_ocr_to_transactions
 
 
 app = FastAPI(title="CreditNext API", version="1.0.0")
@@ -20,7 +28,13 @@ app = FastAPI(title="CreditNext API", version="1.0.0")
 # Dev CORS: allow Next.js dev server.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://localhost:3002"],
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:3001", 
+        "http://localhost:3002",
+        "https://equi.areazeroai.com",
+        "https://*.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"] ,
     allow_headers=["*"] ,
