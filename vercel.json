@@ -19,9 +19,5 @@
       "src": "/(.*)",
       "dest": "web/$1"
     }
-  ],
-  "env": {
-    "TYPHOON_API_KEY": "@typhoon_api_key",
-    "OPENAI_API_KEY": "@openai_api_key"
-  }
+  ]
 }
