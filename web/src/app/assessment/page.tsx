@@ -107,16 +107,27 @@ export default function AssessmentPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-purple-50/50 via-white to-purple-50/30 py-12">
-      <div className="mx-auto max-w-6xl px-6">
+    <main className="relative min-h-[calc(100vh-64px)] overflow-hidden bg-gradient-to-br from-purple-50/50 via-white to-purple-50/30 py-12">
+      {/* Animated Background Elements */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-gradient-to-br from-purple-200/40 to-violet-200/40 blur-3xl animate-blob" />
+        <div className="absolute top-1/2 -left-40 h-96 w-96 rounded-full bg-gradient-to-br from-blue-200/30 to-cyan-200/30 blur-3xl animate-blob-slow" />
+        <div className="absolute -bottom-20 right-1/4 h-72 w-72 rounded-full bg-gradient-to-br from-pink-200/30 to-purple-200/30 blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-6">
         {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold text-slate-900">
+        <div className="mb-10 animate-fade-in-up">
+          <div className="mb-4 inline-flex items-center rounded-full border border-purple-200 bg-purple-50/80 backdrop-blur-sm px-4 py-2 text-sm font-medium text-purple-700">
+            <BarChart3 className="mr-2 h-4 w-4 animate-pulse" />
+            AI Credit Assessment
+          </div>
+          <h1 className="text-4xl font-bold text-slate-900 tracking-tight">
             {t.assessment.title}
           </h1>
-          <p className="mt-2 text-slate-600">{t.assessment.subtitle}</p>
-          <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
-            <Cpu className="h-4 w-4" />
+          <p className="mt-3 text-lg text-slate-600">{t.assessment.subtitle}</p>
+          <div className="mt-4 inline-flex items-center gap-2 text-xs text-slate-500 bg-white/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-slate-200/50">
+            <Cpu className="h-4 w-4 text-purple-500" />
             <span>Models: {getModelVersionString()}</span>
           </div>
         </div>
@@ -127,13 +138,14 @@ export default function AssessmentPage() {
             {/* Upload Card */}
             <Card
               className={cn(
-                "transition-all duration-500",
-                step === "result" ? "opacity-60 grayscale" : ""
+                "transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/10 border-purple-100/50 backdrop-blur-sm bg-white/80",
+                step === "result" ? "opacity-60 grayscale" : "animate-fade-in-up"
               )}
+              style={{ animationDelay: '0.1s' }}
             >
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600 text-sm font-bold">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-violet-600 text-white text-sm font-bold shadow-lg shadow-purple-500/30">
                     1
                   </div>
                   {t.assessment.uploadTitle}
@@ -141,7 +153,7 @@ export default function AssessmentPage() {
                 <CardDescription>{t.assessment.uploadDesc}</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-purple-200 bg-purple-50/30 px-6 py-10 transition-colors hover:bg-purple-50/50">
+                <div className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-purple-200 bg-gradient-to-br from-purple-50/50 to-white px-6 py-10 transition-all duration-300 hover:border-purple-400 hover:bg-purple-50/70 hover:shadow-lg hover:shadow-purple-500/10 group">
                   <input
                     type="file"
                     multiple
@@ -152,8 +164,8 @@ export default function AssessmentPage() {
                     }
                     disabled={busy || step === "result"}
                   />
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 shadow-sm ring-1 ring-purple-200">
-                    <UploadCloud className="h-8 w-8 text-purple-600" />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-violet-600 shadow-lg shadow-purple-500/30 ring-4 ring-purple-100 group-hover:scale-110 group-hover:shadow-xl transition-all duration-300">
+                    <UploadCloud className="h-8 w-8 text-white" />
                   </div>
                   <div className="mt-4 text-center">
                     <p className="text-sm font-semibold text-purple-900">
@@ -243,10 +255,10 @@ export default function AssessmentPage() {
 
             {/* Transactions Table (Visible after processing) */}
             {transactions.length > 0 && (
-              <Card className="overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <Card className="overflow-hidden animate-fade-in-up border-purple-100/50 backdrop-blur-sm bg-white/80 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-500">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600 text-sm font-bold">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-violet-600 text-white text-sm font-bold shadow-lg shadow-purple-500/30">
                       2
                     </div>
                     {t.assessment.extractedTransactions}
@@ -258,8 +270,9 @@ export default function AssessmentPage() {
 
                 {/* Transaction Summary Cards */}
                 <div className="px-6 pb-4 grid grid-cols-3 gap-4">
-                  <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-emerald-50 to-white p-4">
-                    <div className="text-xs font-medium text-emerald-700 mb-1">
+                  <div className="rounded-xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-white p-4 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1">
+                    <div className="text-xs font-medium text-emerald-700 mb-1 flex items-center gap-1">
+                      <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                       Total Income
                     </div>
                     <div className="text-2xl font-bold text-emerald-900">
@@ -275,8 +288,9 @@ export default function AssessmentPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-4">
-                    <div className="text-xs font-medium text-amber-700 mb-1">
+                  <div className="rounded-xl border border-amber-200/50 bg-gradient-to-br from-amber-50 to-white p-4 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-300 hover:-translate-y-1">
+                    <div className="text-xs font-medium text-amber-700 mb-1 flex items-center gap-1">
+                      <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
                       Total Expense
                     </div>
                     <div className="text-2xl font-bold text-amber-900">
@@ -292,8 +306,9 @@ export default function AssessmentPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-purple-50 to-white p-4">
-                    <div className="text-xs font-medium text-purple-700 mb-1">
+                  <div className="rounded-xl border border-purple-200/50 bg-gradient-to-br from-purple-50 to-white p-4 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1">
+                    <div className="text-xs font-medium text-purple-700 mb-1 flex items-center gap-1">
+                      <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
                       Net Cash Flow
                     </div>
                     <div className="text-2xl font-bold text-purple-900">
@@ -392,19 +407,23 @@ export default function AssessmentPage() {
           {/* Right Column: Results */}
           <div className="space-y-6">
             {step === "result" && result ? (
-              <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-700">
+              <div className="space-y-6 animate-fade-in-up">
                 {/* Score Card */}
-                <Card className="border-purple-100 bg-gradient-to-b from-white to-purple-50/30 shadow-xl shadow-purple-900/5">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-center text-purple-900">
+                <Card className="border-purple-100 bg-gradient-to-b from-white to-purple-50/30 shadow-2xl shadow-purple-900/10 hover:shadow-purple-900/20 transition-all duration-500 overflow-hidden relative">
+                  {/* Glowing effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-violet-500/5" />
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-400/20 rounded-full blur-3xl" />
+                  <CardHeader className="pb-2 relative">
+                    <CardTitle className="text-center text-purple-900 flex items-center justify-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-gradient-to-r from-purple-500 to-violet-500 animate-pulse" />
                       {t.assessment.creditScore}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="flex flex-col items-center pb-8">
+                  <CardContent className="flex flex-col items-center pb-8 relative">
                     <Gauge value={result.credit_score} />
-                    <div className="mt-4 flex items-center gap-2 rounded-full bg-white px-4 py-1.5 shadow-sm ring-1 ring-slate-200">
-                      <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                      <span className="text-sm font-medium text-slate-700">
+                    <div className="mt-4 flex items-center gap-2 rounded-full bg-white/80 backdrop-blur-sm px-4 py-1.5 shadow-lg ring-1 ring-purple-200/50">
+                      <span className="h-3 w-3 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500 animate-pulse shadow-lg shadow-emerald-500/50"></span>
+                      <span className="text-sm font-semibold text-slate-700">
                         {result.risk_grade}
                       </span>
                     </div>
@@ -418,9 +437,10 @@ export default function AssessmentPage() {
                 </Card>
 
                 {/* Bank Report */}
-                <Card>
+                <Card className="border-purple-100/50 bg-white/80 backdrop-blur-sm hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
                   <CardHeader>
-                    <CardTitle className="text-base">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500" />
                       Bank-Ready Report
                     </CardTitle>
                   </CardHeader>
@@ -447,9 +467,10 @@ export default function AssessmentPage() {
                 </Card>
 
                 {/* Explainability */}
-                <Card>
+                <Card className="border-purple-100/50 bg-white/80 backdrop-blur-sm hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
                   <CardHeader>
-                    <CardTitle className="text-base">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-500" />
                       Score Factors (SHAP)
                     </CardTitle>
                     <CardDescription>Why you got this score</CardDescription>
@@ -462,7 +483,7 @@ export default function AssessmentPage() {
                 {/* Download PDF Button */}
                 <Button
                   onClick={handleDownloadPDF}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-600/30"
+                  className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white shadow-xl shadow-purple-600/30 hover:shadow-2xl hover:shadow-purple-600/40 transition-all duration-300 hover:-translate-y-1"
                   size="lg"
                 >
                   <Download className="mr-2 h-5 w-5" />
@@ -470,11 +491,12 @@ export default function AssessmentPage() {
                 </Button>
 
                 {/* Legal Compliance Notice */}
-                <Card className="border-blue-100 bg-blue-50/50">
-                  <CardContent className="pt-4 pb-4">
+                <Card className="border-blue-200/50 bg-gradient-to-br from-blue-50/80 to-white backdrop-blur-sm overflow-hidden relative">
+                  <div className="absolute -top-10 -right-10 w-20 h-20 bg-blue-400/20 rounded-full blur-2xl" />
+                  <CardContent className="pt-4 pb-4 relative">
                     <div className="text-xs text-blue-800 space-y-2">
                       <div className="font-semibold flex items-center gap-2">
-                        <Scale className="h-4 w-4" />
+                        <Scale className="h-4 w-4 text-blue-600" />
                         Legal Compliance Notice
                       </div>
                       <p className="leading-relaxed">
@@ -501,32 +523,36 @@ export default function AssessmentPage() {
               </div>
             ) : (
               /* Placeholder State */
-              <div className="sticky top-24 rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-8 text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
-                  <BarChart3 className="h-6 w-6 text-slate-400" />
+              <div className="sticky top-24 rounded-2xl border border-dashed border-purple-200/50 bg-gradient-to-br from-white/50 to-purple-50/30 backdrop-blur-sm p-8 text-center animate-fade-in-up shadow-lg shadow-purple-500/5">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-purple-100 to-violet-100 shadow-inner">
+                  <BarChart3 className="h-7 w-7 text-purple-400" />
                 </div>
                 <h3 className="text-sm font-semibold text-slate-900">
                   No Analysis Yet
                 </h3>
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-2 text-sm text-slate-500 leading-relaxed">
                   Upload documents and run analysis to see your credit score and
                   report here.
                 </p>
+                <div className="mt-4 flex justify-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-purple-300 animate-bounce" style={{ animationDelay: '0s' }} />
+                  <div className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0.1s' }} />
+                  <div className="w-2 h-2 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: '0.2s' }} />
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
       {showToast && (
-        <div className="fixed bottom-4 right-4 z-50 flex items-center gap-3 rounded-lg bg-slate-900 px-4 py-3 text-white shadow-lg animate-in slide-in-from-bottom-5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+        <div className="fixed bottom-4 right-4 z-50 flex items-center gap-3 rounded-xl bg-slate-900/95 backdrop-blur-sm px-5 py-4 text-white shadow-2xl shadow-slate-900/50 animate-fade-in-up border border-slate-700/50">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/30">
             <CheckCircle2 className="h-5 w-5" />
           </div>
           <div>
             <h4 className="text-sm font-semibold">Dispute Registered</h4>
             <p className="text-xs text-slate-300">
-              Reference ID: {disputeId}. A compliance officer will review within
-              24 hours.
+              Reference ID: <span className="font-mono text-emerald-400">{disputeId}</span>. A compliance officer will review within 24 hours.
             </p>
           </div>
         </div>

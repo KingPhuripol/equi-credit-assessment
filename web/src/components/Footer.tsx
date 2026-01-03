@@ -1,60 +1,70 @@
 import Link from "next/link";
-import { ShieldCheck, Github, Mail, FileText } from "lucide-react";
+import { ShieldCheck, Github, Mail, FileText, ExternalLink, Heart } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-slate-200 bg-slate-50">
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+    <footer className="relative overflow-hidden border-t border-purple-100 bg-gradient-to-b from-white to-purple-50/50">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-100/50 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-100/50 to-transparent rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-6 py-16">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
           {/* Brand Column */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#4E2A84] text-white">
-                <ShieldCheck size={20} strokeWidth={2.5} />
+            <Link href="/" className="flex items-center gap-3 mb-6 group">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 to-violet-600 text-white shadow-lg shadow-purple-500/25 group-hover:shadow-xl group-hover:-translate-y-0.5 transition-all">
+                <ShieldCheck size={22} strokeWidth={2.5} />
               </div>
-              <span className="text-lg font-bold tracking-tight text-slate-900">
+              <span className="text-xl font-black tracking-tight bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
                 Equi
               </span>
-            </div>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              AI-Powered Credit Assessment Platform
-              สำหรับฟรีแลนซ์และผู้ประกอบการรายย่อย
+            </Link>
+            <p className="text-sm text-slate-600 leading-relaxed mb-4">
+              AI-Powered Credit Assessment Platform for Freelancers & SMEs
             </p>
-            <div className="mt-4 text-xs text-slate-500">
-              System Version: v1.2.0-enterprise
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-100 text-purple-700 text-xs font-semibold">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              v1.2.0-enterprise
             </div>
           </div>
 
           {/* Product Column */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">
+            <h3 className="text-sm font-bold text-slate-900 mb-5 flex items-center gap-2">
+              <div className="w-1 h-4 rounded-full bg-gradient-to-b from-purple-600 to-violet-600"></div>
               Product
             </h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-3 text-sm">
               <li>
                 <Link
                   href="/assessment"
-                  className="text-slate-600 hover:text-purple-600 transition-colors"
+                  className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-1 group"
                 >
                   Credit Assessment
+                  <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               </li>
               <li>
                 <Link
                   href="/fairness"
-                  className="text-slate-600 hover:text-purple-600 transition-colors"
+                  className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-1 group"
                 >
                   AI Fairness Audit
+                  <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               </li>
               <li>
                 <Link
                   href="/technology"
-                  className="text-slate-600 hover:text-purple-600 transition-colors"
+                  className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-1 group"
                 >
                   Technology Stack
+                  <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               </li>
             </ul>
@@ -62,10 +72,11 @@ export function Footer() {
 
           {/* Company Column */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">
+            <h3 className="text-sm font-bold text-slate-900 mb-5 flex items-center gap-2">
+              <div className="w-1 h-4 rounded-full bg-gradient-to-b from-purple-600 to-violet-600"></div>
               Company
             </h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-3 text-sm">
               <li>
                 <a
                   href="#"
@@ -103,8 +114,11 @@ export function Footer() {
 
           {/* Legal Column */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Legal</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="text-sm font-bold text-slate-900 mb-5 flex items-center gap-2">
+              <div className="w-1 h-4 rounded-full bg-gradient-to-b from-purple-600 to-violet-600"></div>
+              Legal
+            </h3>
+            <ul className="space-y-3 text-sm">
               <li>
                 <Link
                   href="/legal"
@@ -150,37 +164,38 @@ export function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="my-8 border-t border-slate-200"></div>
+        <div className="my-10 border-t border-purple-100"></div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-sm text-slate-500">
-            © {currentYear} Equi Platform. Built with{" "}
-            <span className="text-purple-600 font-semibold">XGBoost</span>,{" "}
-            <span className="text-purple-600 font-semibold">SHAP</span>, and{" "}
-            <span className="text-purple-600 font-semibold">Typhoon OCR</span>.
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2 text-sm text-slate-500">
+            <span>© {currentYear} Equi Platform. Made with</span>
+            <Heart size={14} className="text-red-500 animate-pulse" />
+            <span>by LegalTech Team</span>
           </div>
 
           {/* Tech Badges */}
-          <div className="flex items-center gap-2 text-xs">
-            <div className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full font-medium">
+          <div className="flex items-center gap-2 text-xs flex-wrap justify-center">
+            <div className="px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full font-semibold hover:bg-emerald-200 transition-colors cursor-default">
               ✓ PDPA Compliant
             </div>
-            <div className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full font-medium">
+            <div className="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-semibold hover:bg-purple-200 transition-colors cursor-default">
               ✓ SHA-256 Verified
             </div>
-            <div className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">
+            <div className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-semibold hover:bg-blue-200 transition-colors cursor-default">
               ✓ XAI Enabled
             </div>
           </div>
         </div>
 
         {/* AI Disclosure */}
-        <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-          <div className="flex items-start gap-3">
-            <FileText className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-            <div className="text-xs text-amber-800 leading-relaxed">
-              <strong>AI Transparency Notice:</strong> This platform uses
+        <div className="mt-8 p-5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center">
+              <FileText className="h-5 w-5 text-amber-600" />
+            </div>
+            <div className="text-sm text-amber-900 leading-relaxed">
+              <strong className="font-bold">AI Transparency Notice:</strong> This platform uses
               machine learning models (XGBoost, WangChanBERTa, SHAP) to assess
               creditworthiness. All decisions are explainable and subject to
               human review upon request. Models are regularly audited for

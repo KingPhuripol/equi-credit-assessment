@@ -129,21 +129,32 @@ export default function FairnessPage() {
   ];
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-slate-50 py-12">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <main className="relative min-h-[calc(100vh-64px)] overflow-hidden bg-gradient-to-br from-slate-50 via-white to-purple-50/30 py-12">
+      {/* Animated Background */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-gradient-to-br from-emerald-200/40 to-teal-200/40 blur-3xl animate-blob" />
+        <div className="absolute top-1/3 -right-40 h-96 w-96 rounded-full bg-gradient-to-br from-purple-200/30 to-violet-200/30 blur-3xl animate-blob-slow" />
+        <div className="absolute -bottom-20 left-1/4 h-72 w-72 rounded-full bg-gradient-to-br from-blue-200/30 to-cyan-200/30 blur-3xl animate-blob" style={{ animationDelay: '3s' }} />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-6">
+        <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-fade-in-up">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">
+            <div className="mb-4 inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50/80 backdrop-blur-sm px-4 py-2 text-sm font-medium text-emerald-700">
+              <Scale className="mr-2 h-4 w-4 animate-pulse" />
+              AI Fairness Audit
+            </div>
+            <h1 className="text-4xl font-bold text-slate-900 tracking-tight">
               {t.fairness.title}
             </h1>
-            <p className="mt-2 text-slate-600">{t.fairness.subtitle}</p>
+            <p className="mt-3 text-lg text-slate-600">{t.fairness.subtitle}</p>
           </div>
           {/* Feature C: Badge */}
           <div
-            className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium border shadow-sm transition-colors ${
+            className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold border-2 shadow-lg transition-all duration-500 ${
               isMitigated
-                ? "bg-emerald-100 text-emerald-800 border-emerald-200"
-                : "bg-amber-100 text-amber-800 border-amber-200"
+                ? "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-800 border-emerald-300 shadow-emerald-500/20"
+                : "bg-gradient-to-r from-amber-50 to-orange-50 text-amber-800 border-amber-300 shadow-amber-500/20"
             }`}
           >
             {isMitigated ? (
@@ -156,27 +167,28 @@ export default function FairnessPage() {
         </div>
 
         {/* Control Panel */}
-        <Card className="mb-8 border-purple-100 shadow-md">
-          <CardContent className="p-6">
+        <Card className="mb-8 border-purple-200/50 shadow-xl shadow-purple-500/10 bg-white/80 backdrop-blur-sm overflow-hidden relative animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-400/10 rounded-full blur-3xl" />
+          <CardContent className="p-6 relative">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex-1 w-full">
                 <div className="flex justify-between mb-2">
                   <span className="text-sm font-medium text-slate-700">
                     Audit Progress
                   </span>
-                  <span className="text-sm font-medium text-purple-600">
+                  <span className="text-sm font-semibold text-purple-600">
                     {processedCount} / 1000 Applicants
                   </span>
                 </div>
                 <Progress
                   value={progress}
-                  className="h-3 bg-slate-100"
-                  indicatorClassName="bg-purple-600"
+                  className="h-4 bg-slate-100 rounded-full overflow-hidden"
+                  indicatorClassName="bg-gradient-to-r from-purple-500 to-violet-600 transition-all duration-300"
                 />
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="flex items-center space-x-2 bg-slate-100 p-3 rounded-lg">
+                <div className="flex items-center space-x-3 bg-gradient-to-r from-slate-50 to-slate-100 p-4 rounded-xl border border-slate-200/50 shadow-inner">
                   <Switch
                     id="mitigate-mode"
                     checked={isMitigated}
@@ -184,7 +196,7 @@ export default function FairnessPage() {
                   />
                   <Label
                     htmlFor="mitigate-mode"
-                    className="cursor-pointer font-medium"
+                    className="cursor-pointer font-semibold text-slate-700"
                   >
                     {t.fairness.mitigation}
                   </Label>
@@ -193,7 +205,7 @@ export default function FairnessPage() {
                 <Button
                   onClick={runAudit}
                   disabled={isAuditing}
-                  className="bg-[#4E2A84] hover:bg-[#3b1e66] min-w-[140px]"
+                  className="bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 min-w-[160px] shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 hover:-translate-y-0.5"
                 >
                   {isAuditing ? (
                     <>
@@ -214,10 +226,12 @@ export default function FairnessPage() {
 
         <div className="grid gap-6 md:grid-cols-2">
           {/* Gender Parity Chart */}
-          <Card>
+          <Card className="border-purple-100/50 bg-white/80 backdrop-blur-sm shadow-xl shadow-purple-500/10 hover:shadow-2xl hover:shadow-purple-500/15 transition-all duration-500 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-[#4E2A84]" />
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gradient-to-br from-purple-100 to-violet-100 rounded-lg">
+                  <Users className="h-5 w-5 text-purple-600" />
+                </div>
                 <CardTitle>{t.fairness.genderParity}</CardTitle>
               </div>
               <CardDescription>
@@ -250,11 +264,11 @@ export default function FairnessPage() {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <div className="mt-4 flex items-center justify-between rounded-lg bg-slate-50 p-3 text-sm">
-                <span className="text-slate-600">Disparate Impact Ratio:</span>
+              <div className="mt-4 flex items-center justify-between rounded-xl bg-gradient-to-r from-slate-50 to-slate-100 p-4 text-sm border border-slate-200/50">
+                <span className="text-slate-600 font-medium">Disparate Impact Ratio:</span>
                 <span
-                  className={`font-bold ${
-                    isMitigated ? "text-emerald-600" : "text-amber-600"
+                  className={`font-bold px-3 py-1 rounded-full ${
+                    isMitigated ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
                   }`}
                 >
                   {isMitigated ? "0.99 (Excellent)" : "0.93 (Acceptable)"}
@@ -264,10 +278,12 @@ export default function FairnessPage() {
           </Card>
 
           {/* Regional Fairness Chart */}
-          <Card>
+          <Card className="border-purple-100/50 bg-white/80 backdrop-blur-sm shadow-xl shadow-purple-500/10 hover:shadow-2xl hover:shadow-purple-500/15 transition-all duration-500 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <CardHeader>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-[#4E2A84]" />
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg">
+                  <MapPin className="h-5 w-5 text-blue-600" />
+                </div>
                 <CardTitle>{t.fairness.regionalParity}</CardTitle>
               </div>
               <CardDescription>
@@ -293,18 +309,24 @@ export default function FairnessPage() {
                     <Bar
                       dataKey="approvalRate"
                       name="Approval Rate (%)"
-                      fill="#6C757D"
+                      fill="url(#barGradient)"
                       radius={[0, 4, 4, 0]}
                       animationDuration={1000}
                     />
+                    <defs>
+                      <linearGradient id="barGradient" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#4E2A84" />
+                        <stop offset="100%" stopColor="#7c3aed" />
+                      </linearGradient>
+                    </defs>
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <div className="mt-4 flex items-center justify-between rounded-lg bg-slate-50 p-3 text-sm">
-                <span className="text-slate-600">Regional Parity Gap:</span>
+              <div className="mt-4 flex items-center justify-between rounded-xl bg-gradient-to-r from-slate-50 to-slate-100 p-4 text-sm border border-slate-200/50">
+                <span className="text-slate-600 font-medium">Regional Parity Gap:</span>
                 <span
-                  className={`font-bold ${
-                    isMitigated ? "text-emerald-600" : "text-red-500"
+                  className={`font-bold px-3 py-1 rounded-full ${
+                    isMitigated ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
                   }`}
                 >
                   {isMitigated
@@ -317,12 +339,15 @@ export default function FairnessPage() {
         </div>
 
         {/* Audit Log */}
-        <Card className="mt-6">
+        <Card className="mt-6 border-slate-200/50 bg-white/80 backdrop-blur-sm shadow-xl shadow-slate-500/10 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
           <CardHeader>
-            <CardTitle>Real-time Audit Log</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              Real-time Audit Log
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[200px] overflow-y-auto rounded-md border bg-slate-900 p-4 font-mono text-xs text-green-400">
+            <div className="h-[200px] overflow-y-auto rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-900 to-slate-800 p-4 font-mono text-xs text-green-400 shadow-inner">
               {processedCount > 0 && (
                 <>
                   <div className="mb-1 opacity-50">
