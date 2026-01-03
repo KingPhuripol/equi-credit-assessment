@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #212529;
+  --color-primary: #4e2a84;
+  --color-secondary: #6c757d;
+}
+
+:root {
+  --bg: #ffffff;
+  --surface: #f8f9fa;
+  --surface-2: #e9ecef;
+  --border: #dee2e6;
+  --text: #212529;
+  --muted: #6c757d;
+
+  /* Branding Colors */
+  --primary: #4e2a84; /* Royal Purple */
+  --secondary: #6c757d; /* Slate Grey */
+
+  --purple: #4e2a84;
+  --purple-700: #3b1e66;
+  --purple-300: #9d8cb5;
+  --purple-50: #f3f0f9;
+
+  --background: var(--bg);
+  --foreground: var(--text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0412;
+    --surface: #1a0b24;
+    --surface-2: #2e1065;
+    --border: rgba(168, 85, 247, 0.18);
+    --text: #f3e8ff;
+    --muted: rgba(233, 213, 255, 0.72);
+    --background: var(--bg);
+    --foreground: var(--text);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, Segoe UI,
+    Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+::selection {
+  background: rgba(147, 51, 234, 0.2);
+}

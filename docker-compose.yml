@@ -1,0 +1,23 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8000:8000"
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+      args:
+        # Baked into the client bundle at build time
+        NEXT_PUBLIC_API_BASE: http://localhost:8000
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3002:3000"
+    depends_on:
+      - api
